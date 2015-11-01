@@ -15,4 +15,8 @@ html
 
     br
     - if user_signed_in?
+      = link_to 'Categories', categories_path
+      br
+      = link_to 'Settings', settings_path
+      br
       = link_to 'Sign Out', destroy_user_session_path, method: :delete, id: 'sign_out'

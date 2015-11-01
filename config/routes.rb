@@ -3,17 +3,23 @@ Rails.application.routes.draw do
 
   devise_for :users, skip: [:sessions], controllers: { omniauth_callbacks: "omniauth_callbacks" }
   as :user do
-    get 'sign_in' => 'devise/sessions#new', as: :new_user_session
-    post 'sign_in' => 'devise/sessions#create', as: :user_session
-    delete 'sign_out' => 'devise/sessions#destroy', as: :destroy_user_session
+    get 'sign_in', to: 'devise/sessions#new', as: :new_user_session
+    post 'sign_in', to: 'devise/sessions#create', as: :user_session
+    delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
   resource :user, only: [:show, :edit, :update] do
-    get 'password' => 'users#password'
+    get 'password', to: 'users#password'
     collection do
-      patch 'password/update' => 'users#update_password'
+      patch 'password/update', to: 'users#update_password'
     end
   end
+
+  resources :settings, only: [:index] do
+    patch '/', to: :update, on: :collection
+  end
+
+  resources :categories, only: [:index]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -21,10 +27,10 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
+  #   get 'products/:id', to: 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
+  #   get 'products/:id/purchase', to: 'catalog#purchase', as: :purchase
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

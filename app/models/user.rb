@@ -7,9 +7,11 @@ class User < ActiveRecord::Base
 
   validates :username, uniqueness: {case_sensitive: false}
 
-  attr_accessor :signin
+  attr_accessor  :signin
+  store_accessor :settings, :currency, :first_dom, :categories
 
   before_create :set_dummy_email, if: :provider_twitter?
+  before_create :set_default_settings
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
@@ -45,5 +47,9 @@ class User < ActiveRecord::Base
   private
     def set_dummy_email
       self.email = "#{self.nickname}@email.com"
+    end
+
+    def set_default_settings
+      self.settings = DEFAULTS[:settings]
     end
 end

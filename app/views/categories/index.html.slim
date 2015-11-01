@@ -1,0 +1,26 @@
+.col-md-12
+	h1.page-header Categories
+
+.col-md-12
+	.btn-group
+		= link_to "+ Income", "#", class: "btn btn-default"
+		= link_to "- Expense", "#", class: "btn btn-default"
+
+.col-md-12
+	table.table
+		thead
+			th Category
+			th Actions
+		tbody
+			/ - if @user.categories.present?
+			- @user.categories.each do |type, categories|	
+				tr
+					td colspan="2" 
+						strong = type.titleize
+				- categories.each do |category|
+					tr
+						td = category
+						td actions
+				tr
+					td colspan="2" &nbsp;
+
